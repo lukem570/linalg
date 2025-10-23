@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <array>
+#include <string>
+#include <sstream>
 
 #define TENSOR_OPERATION(op, spec) \
     spec TensorT operator op(const TensorT& rhs) spec {         \
@@ -180,6 +182,19 @@ namespace Linalg {
 
             float& getList(std::array<std::size_t, GetSize<Dim>::value> indices) {
                 return data[indices.back()];
+            }
+
+            std::string string() {
+                std::stringstream stream;
+                stream << "(";
+
+                for (std::size_t i = 0; i < data.size() - 1; i++) {
+                    stream << data[i] << ", ";
+                }
+
+                stream << data.back() << ")";
+
+                return stream.str();
             }
 
             TensorT<NumList<D1>> lerp(TensorT<NumList<D1>> to, float t) {
