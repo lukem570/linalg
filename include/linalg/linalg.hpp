@@ -130,6 +130,11 @@ namespace Linalg {
         public:
             typedef NumList<D1> Dim;
 
+            TensorT() = default;
+            TensorT(std::initializer_list<float> list) {
+                std::copy(list.begin(), list.end(), data.end());
+            }
+
             float& operator[](std::size_t index) {
                 return data[index];
             }
@@ -190,6 +195,11 @@ namespace Linalg {
     class TensorT<NumList<D...>> {
         public:
             typedef NumList<D...> Dim;
+
+            TensorT() = default;
+            TensorT(std::initializer_list<TensorT<typename PopBack<Dim>::value>> list) {
+                std::copy(list.begin(), list.end(), data.end());
+            }
 
             template <int D1, int D2>
             TensorT<typename SwapItems<Dim, D1, D2>::value> __permute() { 

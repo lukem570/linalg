@@ -8,5 +8,8 @@ int main(void) {
 
     tP *= 2;
 
+    Linalg::Vector<2> v = {1, 2};
+
     (void)tP;
+    (void)v;
 }
