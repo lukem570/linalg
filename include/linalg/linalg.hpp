@@ -190,10 +190,10 @@ namespace Linalg {
                 stream << "(";
 
                 for (std::size_t i = 0; i < data.size() - 1; i++) {
-                    stream << std::setprecision(6) << data[i] << ", ";
+                    stream << std::fixed << std::setprecision(6) << data[i] << ", ";
                 }
 
-                stream << std::setprecision(6) << data.back() << ")";
+                stream << std::fixed << std::setprecision(6) << data.back() << ")";
 
                 return stream.str();
             }
