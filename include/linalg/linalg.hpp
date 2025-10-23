@@ -1,7 +1,8 @@
 #ifndef LINALG_HPP
 #define LINALG_HPP
 
-#include <functional>
+#include <cmath>
+#include <array>
 
 #define TENSOR_OPERATION(op) \
     const TensorT operator op(const TensorT& rhs) const {    \
@@ -255,12 +256,12 @@ namespace Linalg {
 
     template <int M, int N>
     Matrix<N,M> transpose(const Matrix<M,N>& A) {
-        return A.permute(0, 1);
+        return A.template permute(0, 1);
     }
 
     template <int M, int N>
     Vector<M> matvec(const Matrix<M,N>& A, const Vector<N>& x) {
-        Matrix<M> y;
+        Vector<M> y;
         for (int i = 0; i < M; ++i) {
             y[i] = 0;
             for (int j = 0; j < N; ++j)
