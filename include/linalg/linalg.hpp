@@ -5,6 +5,7 @@
 #include <array>
 #include <string>
 #include <sstream>
+#include <iomanip>
 
 #define TENSOR_OPERATION(op, spec) \
     spec TensorT operator op(const TensorT& rhs) spec {         \
@@ -189,10 +190,10 @@ namespace Linalg {
                 stream << "(";
 
                 for (std::size_t i = 0; i < data.size() - 1; i++) {
-                    stream << data[i] << ", ";
+                    stream << std::setprecision(6) << data[i] << ", ";
                 }
 
-                stream << data.back() << ")";
+                stream << std::setprecision(6) << data.back() << ")";
 
                 return stream.str();
             }
