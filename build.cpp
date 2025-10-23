@@ -1,8 +1,15 @@
 #include <cbuild/cbuild.hpp>
 
-int build() {
+int build(CBuild::Context context) {
     
-    /* Build steps go here */
+    CBuild::Executable test (
+        context,
+        "./test.cpp",
+        "test"
+    );
+
+    test.includeDirectory("include");
+    test.compile();
     
     return 0;
 }

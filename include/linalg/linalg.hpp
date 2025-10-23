@@ -132,6 +132,21 @@ namespace Linalg {
             TENSOR_OPERATION(/);
             TENSOR_OPERATION(%);
 
+            float dot(const TensorT& b) {
+                float sum = 0.0f;
+                for (int i = 0; i < D1; ++i)
+                    sum += this->operator[](i)* b[i];
+                return sum;
+            }
+
+            float squaredLength() {
+                return dot(*this);
+            }
+
+            float length() {
+                return std::sqrt(squaredLength());
+            }
+
             float& getList(std::array<std::size_t, GetSize<Dim>::value> indices) {
                 return data[indices.back()];
             }
@@ -220,8 +235,50 @@ namespace Linalg {
             }
     };
 
+    inline Tensor<3> cross(const Tensor<3>& a, const Tensor<3>& b) {
+        Tensor<3> result;
+        result[0] = a[1]*b[2] - a[2]*b[1];
+        result[1] = a[2]*b[0] - a[0]*b[2];
+        result[2] = a[0]*b[1] - a[1]*b[0];
+        return result;
+    }
+
+    template <int M, int N>
+    Tensor<N,M> transpose(const Tensor<M,N>& A) {
+        return A.permute(0, 1);
+    }
+
+    template <int M, int N>
+    Tensor<M> matvec(const Tensor<M,N>& A, const Tensor<N>& x) {
+        Tensor<M> y;
+        for (int i = 0; i < M; ++i) {
+            y[i] = 0;
+            for (int j = 0; j < N; ++j)
+                y[i] += A[i][j] * x[j];
+        }
+        return y;
+    }
+
+    template <int M, int N, int P>
+    Tensor<M,P> matmul(const Tensor<M,N>& A, const Tensor<N,P>& B) {
+        Tensor<M,P> C;
+        for (int i = 0; i < M; ++i)
+            for (int j = 0; j < P; ++j) {
+                C[i][j] = 0;
+                for (int k = 0; k < N; ++k)
+                    C[i][j] += A[i][k] * B[k][j];
+            }
+        return C;
+    }
+
     template <int... Dims>
     using Tensor = TensorT<NumList<Dims...>>;
+    
+    template <int N>
+    using Vector = Tensor<N>;
+    
+    template <int M, int N>
+    using Matrix = Tensor<M, N>;
 }
 
 #endif
