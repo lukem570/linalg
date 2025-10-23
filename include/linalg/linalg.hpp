@@ -135,7 +135,7 @@ namespace Linalg {
 
             TensorT() = default;
             TensorT(std::initializer_list<float> list) {
-                std::copy(list.begin(), list.end(), data);
+                std::copy(list.begin(), list.end(), data.begin());
             }
 
             float& operator[](std::size_t index) {
@@ -214,7 +214,7 @@ namespace Linalg {
 
             TensorT() = default;
             TensorT(std::initializer_list<TensorT<typename PopBack<Dim>::value>> list) {
-                std::copy(list.begin(), list.end(), data);
+                std::copy(list.begin(), list.end(), data.begin());
             }
 
             template <int D1, int D2>
