@@ -183,7 +183,7 @@ namespace Linalg {
             }
 
             TensorT<NumList<D1>> lerp(TensorT<NumList<D1>> to, float t) {
-                return (1 - t) * *this + t * to;
+                return *this * (1 - t) + to * t;
             }
 
         private:
