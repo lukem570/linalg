@@ -235,8 +235,18 @@ namespace Linalg {
             }
     };
 
-    inline Tensor<3> cross(const Tensor<3>& a, const Tensor<3>& b) {
-        Tensor<3> result;
+    
+    template <int... Dims>
+    using Tensor = TensorT<NumList<Dims...>>;
+    
+    template <int N>
+    using Vector = Tensor<N>;
+    
+    template <int M, int N>
+    using Matrix = Tensor<M, N>;
+
+    inline Vector<3> cross(const Vector<3>& a, const Vector<3>& b) {
+        Vector<3> result;
         result[0] = a[1]*b[2] - a[2]*b[1];
         result[1] = a[2]*b[0] - a[0]*b[2];
         result[2] = a[0]*b[1] - a[1]*b[0];
@@ -244,13 +254,13 @@ namespace Linalg {
     }
 
     template <int M, int N>
-    Tensor<N,M> transpose(const Tensor<M,N>& A) {
+    Matrix<N,M> transpose(const Matrix<M,N>& A) {
         return A.permute(0, 1);
     }
 
     template <int M, int N>
-    Tensor<M> matvec(const Tensor<M,N>& A, const Tensor<N>& x) {
-        Tensor<M> y;
+    Vector<M> matvec(const Matrix<M,N>& A, const Vector<N>& x) {
+        Matrix<M> y;
         for (int i = 0; i < M; ++i) {
             y[i] = 0;
             for (int j = 0; j < N; ++j)
@@ -260,8 +270,8 @@ namespace Linalg {
     }
 
     template <int M, int N, int P>
-    Tensor<M,P> matmul(const Tensor<M,N>& A, const Tensor<N,P>& B) {
-        Tensor<M,P> C;
+    Matrix<M,P> matmul(const Matrix<M,N>& A, const Matrix<N,P>& B) {
+        Matrix<M,P> C;
         for (int i = 0; i < M; ++i)
             for (int j = 0; j < P; ++j) {
                 C[i][j] = 0;
@@ -270,15 +280,6 @@ namespace Linalg {
             }
         return C;
     }
-
-    template <int... Dims>
-    using Tensor = TensorT<NumList<Dims...>>;
-    
-    template <int N>
-    using Vector = Tensor<N>;
-    
-    template <int M, int N>
-    using Matrix = Tensor<M, N>;
 }
 
 #endif
