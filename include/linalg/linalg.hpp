@@ -152,6 +152,10 @@ namespace Linalg {
                 return data[indices.back()];
             }
 
+            TensorT<NumList<D1>> lerp(TensorT<NumList<D1>> to, float t) {
+                return (1 - t) * data + t * to;
+            }
+
         private:
             std::array<float, D1> data;
 
