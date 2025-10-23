@@ -13,3 +13,8 @@ int build(CBuild::Context context) {
     
     return 0;
 }
+
+CBUILD_RUN int test() {
+    
+    return system("./build/test");
+}

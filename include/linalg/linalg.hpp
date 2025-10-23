@@ -4,12 +4,23 @@
 #include <cmath>
 #include <array>
 
-#define TENSOR_OPERATION(op) \
-    const TensorT operator op(const TensorT& rhs) const {    \
+#define TENSOR_OPERATION(op, spec) \
+    spec TensorT operator op(const TensorT& rhs) spec {         \
         TensorT newTensor;                                      \
                                                                 \
         for (std::size_t i = 0; i < data.size(); i++) {         \
-            newTensor[i] = (this->operator[](i) op rhs[i]);     \
+            newTensor[i] = (operator[](i) op rhs[i]);           \
+        }                                                       \
+                                                                \
+        return newTensor;                                       \
+    }
+
+#define FLOAT_OPERATION(op, spec) \
+    spec TensorT operator op(const float& rhs) spec {           \
+        TensorT newTensor;                                      \
+                                                                \
+        for (std::size_t i = 0; i < data.size(); i++) {         \
+            newTensor[i] = (operator[](i) op rhs);              \
         }                                                       \
                                                                 \
         return newTensor;                                       \
@@ -127,11 +138,25 @@ namespace Linalg {
                 return data[index];
             }
 
-            TENSOR_OPERATION(+);
-            TENSOR_OPERATION(-);
-            TENSOR_OPERATION(*);
-            TENSOR_OPERATION(/);
-            TENSOR_OPERATION(%);
+            TENSOR_OPERATION(+, const);
+            TENSOR_OPERATION(-, const);
+            TENSOR_OPERATION(*, const);
+            TENSOR_OPERATION(/, const);
+
+            FLOAT_OPERATION(+, const);
+            FLOAT_OPERATION(-, const);
+            FLOAT_OPERATION(*, const);
+            FLOAT_OPERATION(/, const);
+
+            TENSOR_OPERATION(+=,);
+            TENSOR_OPERATION(-=,);
+            TENSOR_OPERATION(*=,);
+            TENSOR_OPERATION(/=,);
+
+            FLOAT_OPERATION(+=,);
+            FLOAT_OPERATION(-=,);
+            FLOAT_OPERATION(*=,);
+            FLOAT_OPERATION(/=,);
 
             float dot(const TensorT& b) {
                 float sum = 0.0f;
@@ -153,7 +178,7 @@ namespace Linalg {
             }
 
             TensorT<NumList<D1>> lerp(TensorT<NumList<D1>> to, float t) {
-                return (1 - t) * data + t * to;
+                return (1 - t) * *this + t * to;
             }
 
         private:
@@ -208,11 +233,25 @@ namespace Linalg {
                 return data[index];
             }
 
-            TENSOR_OPERATION(+);
-            TENSOR_OPERATION(-);
-            TENSOR_OPERATION(*);
-            TENSOR_OPERATION(/);
-            TENSOR_OPERATION(%);
+            TENSOR_OPERATION(+, const);
+            TENSOR_OPERATION(-, const);
+            TENSOR_OPERATION(*, const);
+            TENSOR_OPERATION(/, const);
+
+            FLOAT_OPERATION(+, const);
+            FLOAT_OPERATION(-, const);
+            FLOAT_OPERATION(*, const);
+            FLOAT_OPERATION(/, const);
+
+            TENSOR_OPERATION(+=,);
+            TENSOR_OPERATION(-=,);
+            TENSOR_OPERATION(*=,);
+            TENSOR_OPERATION(/=,);
+
+            FLOAT_OPERATION(+=,);
+            FLOAT_OPERATION(-=,);
+            FLOAT_OPERATION(*=,);
+            FLOAT_OPERATION(/=,);
             
             float& getList(std::array<std::size_t, GetSize<Dim>::value> indices) {
                 std::array<std::size_t, GetSize<Dim>::value-1> newIndices;
