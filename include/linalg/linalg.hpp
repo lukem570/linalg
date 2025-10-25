@@ -29,6 +29,26 @@
         return newTensor;                                       \
     }
 
+#define FLIPPED_FLOAT_VECTOR_OPERATION(op)                                               \
+template <int D1>                                                                        \
+TensorT<NumList<D1>> operator op(const float& lhs, const TensorT<NumList<D1>>& rhs) {    \
+    TensorT<NumList<D1>> result;                                             \
+    for (std::size_t i = 0; i < rhs.size(); ++i) {                                       \
+        result[i] = lhs op rhs[i];                                                       \
+    }                                                                                    \
+    return result;                                                                       \
+}
+
+#define FLIPPED_FLOAT_TENSOR_OPERATION(op)                                                \
+template <int... D>                                                                       \
+TensorT<NumList<D...>> operator op(const float& lhs, const TensorT<NumList<D...>>& rhs) { \
+    TensorT<NumList<D...>> result;                                            \
+    for (std::size_t i = 0; i < rhs.size(); ++i) {                                        \
+        result[i] = lhs op rhs[i];                                                        \
+    }                                                                                     \
+    return result;                                                                        \
+}
+
 #define permute(a, b) __permute<a, b>()
 
 namespace Linalg {
@@ -185,6 +205,10 @@ namespace Linalg {
                 return data[indices.back()];
             }
 
+            std::size_t size() const {
+                return D1;
+            }
+
             std::string string() {
                 std::stringstream stream;
                 stream << "(";
@@ -247,6 +271,10 @@ namespace Linalg {
                 return newTensor; 
             }
 
+            std::size_t size() const {
+                return GetItem<Dim, GetSize<Dim>::value-1>::element;
+            }
+
             const std::array<std::size_t, GetSize<Dim>::value> shape() const {
                 return {D...};
             }
@@ -305,6 +333,15 @@ namespace Linalg {
             }
     };
 
+    FLIPPED_FLOAT_VECTOR_OPERATION(+);
+    FLIPPED_FLOAT_VECTOR_OPERATION(-);
+    FLIPPED_FLOAT_VECTOR_OPERATION(*);
+    FLIPPED_FLOAT_VECTOR_OPERATION(/);
+
+    FLIPPED_FLOAT_TENSOR_OPERATION(+);
+    FLIPPED_FLOAT_TENSOR_OPERATION(-);
+    FLIPPED_FLOAT_TENSOR_OPERATION(*);
+    FLIPPED_FLOAT_TENSOR_OPERATION(/);
     
     template <int... Dims>
     using Tensor = TensorT<NumList<Dims...>>;

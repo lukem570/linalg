@@ -10,6 +10,7 @@ int main(void) {
 
     Linalg::Vector<2> v = {1, 2};
 
-    (void)tP;
-    (void)v;
+    v = 2 + v;
+
+    printf("vec: %s\n", v.string().c_str());
 }
