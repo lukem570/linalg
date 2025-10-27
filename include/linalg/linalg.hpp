@@ -186,18 +186,18 @@ namespace Linalg {
             FLOAT_OPERATION(*=,);
             FLOAT_OPERATION(/=,);
 
-            float dot(const TensorT& b) {
+            float dot(const TensorT& b) const {
                 float sum = 0.0f;
                 for (int i = 0; i < D1; ++i)
                     sum += this->operator[](i)* b[i];
                 return sum;
             }
 
-            float squaredLength() {
+            float squaredLength() const {
                 return dot(*this);
             }
 
-            float length() {
+            float length() const {
                 return std::sqrt(squaredLength());
             }
 
@@ -209,7 +209,7 @@ namespace Linalg {
                 return D1;
             }
 
-            std::string string() {
+            std::string string() const {
                 std::stringstream stream;
                 stream << "(";
 
