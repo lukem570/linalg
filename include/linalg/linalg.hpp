@@ -226,6 +226,12 @@ namespace Linalg {
                 return *this * (1 - t) + to * t;
             }
 
+            float determinant(const TensorT& other) const {
+                static_assert(D1 == 2, "determinate only implemented for size 2");
+
+                return data[0] * other[1] - data[1] * other[0];
+            }
+
         private:
             std::array<float, D1> data;
 

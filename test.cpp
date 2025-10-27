@@ -8,9 +8,10 @@ int main(void) {
 
     tP *= 2;
 
-    Linalg::Vector<2> v = {1, 2};
+    Linalg::Vector<2> v1 = {1, 0};
+    Linalg::Vector<2> v2 = {0, 1};
 
-    v = 2 + v;
+    float det = v1.determinant(v2);
 
-    printf("vec: %s\n", v.string().c_str());
+    printf("det: %f\n", det);
 }
