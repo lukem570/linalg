@@ -157,6 +157,7 @@ namespace Linalg {
             TensorT(std::initializer_list<float> list) {
                 std::copy(list.begin(), list.end(), data.begin());
             }
+            TensorT(float value) { data.fill(value); }
 
             float& operator[](std::size_t index) {
                 return data[index];
@@ -246,6 +247,7 @@ namespace Linalg {
             TensorT(std::initializer_list<TensorT<typename PopBack<Dim>::value>> list) {
                 std::copy(list.begin(), list.end(), data.begin());
             }
+            TensorT(float value) { data.fill(value); }
 
             template <int D1, int D2>
             TensorT<typename SwapItems<Dim, D1, D2>::value> __permute() { 

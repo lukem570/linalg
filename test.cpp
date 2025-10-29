@@ -9,7 +9,7 @@ int main(void) {
     tP *= 2;
 
     Linalg::Vector<2> v1 = {1, 0};
-    Linalg::Vector<2> v2 = {0, 1};
+    Linalg::Vector<2> v2 = 1;
 
     float det = v1.determinant(v2);
 
