@@ -194,6 +194,13 @@ namespace Linalg {
                 return sum;
             }
 
+            float sum() const {
+                float sum = 0.0f;
+                for (int i = 0; i < D1; ++i)
+                    sum += this->operator[](i);
+                return sum;
+            }
+
             float squaredLength() const {
                 return dot(*this);
             }
