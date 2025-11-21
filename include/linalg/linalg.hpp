@@ -436,18 +436,18 @@ namespace Linalg {
             float& y = data[1];
     };
 
-    class Vec3 : public Vector<2> {
+    class Vec3 : public Vector<3> {
         public:
-            using Vector<2>::TensorT;
+            using Vector<3>::TensorT;
 
             float& x = data[0];
             float& y = data[1];
             float& z = data[2];
     };
 
-    class Vec4 : public Vector<2> {
+    class Vec4 : public Vector<4> {
         public:
-            using Vector<2>::TensorT;
+            using Vector<4>::TensorT;
 
             float& x = data[0];
             float& y = data[1];
