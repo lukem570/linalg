@@ -7,6 +7,9 @@
 #include <sstream>
 #include <iomanip>
 
+namespace Linalg {}
+namespace la = Linalg;
+
 #define TENSOR_OPERATION(op, spec) \
     spec TensorT operator op(const TensorT& rhs) spec {         \
         TensorT newTensor;                                      \
@@ -254,6 +257,14 @@ namespace Linalg {
                 return this->operator/(length());
             }
 
+            TensorT<NumList<D1 + 1>> extend(float value) const {
+                TensorT<NumList<D1 + 1>> extended;
+                for (std::size_t i = 0; i < D1; ++i)
+                    extended[i] = this->operator[](i);
+                extended[D1] = value;
+                return extended;
+            }
+
         private:
             std::array<float, D1> data;
 
@@ -416,6 +427,11 @@ namespace Linalg {
             }
         return C;
     }
+
+    using Vec1 = Vector<1>;
+    using Vec2 = Vector<2>;
+    using Vec3 = Vector<3>;
+    using Vec4 = Vector<4>;
 }
 
 #endif
