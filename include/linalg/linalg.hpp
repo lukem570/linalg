@@ -250,6 +250,10 @@ namespace Linalg {
                 };
             }
 
+            TensorT<NumList<D1>> normalize() const {
+                return this->operator/(length());
+            }
+
         private:
             std::array<float, D1> data;
 
