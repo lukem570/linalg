@@ -431,6 +431,12 @@ namespace Linalg {
     class Vec2 : public Vector<2> {
         public:
             using Vector<2>::TensorT;
+            Vec2(Vector<2> r) : Vector<2>(r) {}
+            Vec2 operator=(const Vec2& rhs) { 
+                x = rhs.x;
+                y = rhs.y;
+                return *this;
+            }
 
             float& x = data[0];
             float& y = data[1];
@@ -439,6 +445,13 @@ namespace Linalg {
     class Vec3 : public Vector<3> {
         public:
             using Vector<3>::TensorT;
+            Vec3(Vector<3> r) : Vector<3>(r) {}
+            Vec3 operator=(const Vec3& rhs) { 
+                x = rhs.x;
+                y = rhs.y;
+                z = rhs.z;
+                return *this;
+            }
 
             float& x = data[0];
             float& y = data[1];
@@ -448,6 +461,14 @@ namespace Linalg {
     class Vec4 : public Vector<4> {
         public:
             using Vector<4>::TensorT;
+            Vec4(Vector<4> r) : Vector<4>(r) {}
+            Vec4 operator=(const Vec4& rhs) { 
+                x = rhs.x;
+                y = rhs.y;
+                z = rhs.z;
+                w = rhs.w;
+                return *this;
+            }
 
             float& x = data[0];
             float& y = data[1];
