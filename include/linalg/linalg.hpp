@@ -265,7 +265,7 @@ namespace Linalg {
                 return extended;
             }
 
-        private:
+        protected:
             std::array<float, D1> data;
 
     };
@@ -356,7 +356,7 @@ namespace Linalg {
                 return data[indices.back()].getList(newIndices);
             }
 
-        private:
+        protected:
             std::array<
                 TensorT<typename PopBack<Dim>::value>, 
                 GetItem<Dim, GetSize<Dim>::value-1>::element
@@ -428,10 +428,32 @@ namespace Linalg {
         return C;
     }
 
-    using Vec1 = Vector<1>;
-    using Vec2 = Vector<2>;
-    using Vec3 = Vector<3>;
-    using Vec4 = Vector<4>;
+    class Vec2 : public Vector<2> {
+        public:
+            using Vector<2>::TensorT;
+
+            float& x = data[0];
+            float& y = data[1];
+    };
+
+    class Vec3 : public Vector<2> {
+        public:
+            using Vector<2>::TensorT;
+
+            float& x = data[0];
+            float& y = data[1];
+            float& z = data[2];
+    };
+
+    class Vec4 : public Vector<2> {
+        public:
+            using Vector<2>::TensorT;
+
+            float& x = data[0];
+            float& y = data[1];
+            float& z = data[2];
+            float& w = data[3];
+    };
 }
 
 #endif

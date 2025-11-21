@@ -8,8 +8,9 @@ int main(void) {
 
     tP *= 2;
 
-    Linalg::Vector<2> v1 = {1, 0};
-    Linalg::Vector<2> v2 = 1;
+    la::Vec2 v1 = {1, 0};
+    la::Vec2 v2 = 1;
+    v2.x = 2;
 
     float det = v1.determinant(v2);
 
