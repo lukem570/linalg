@@ -240,6 +240,16 @@ namespace Linalg {
                 return data[0] * other[1] - data[1] * other[0];
             }
 
+            TensorT<NumList<D1>> cross(TensorT<NumList<D1>> other) {
+                static_assert(D1 == 3, "cross product only exits for a vector 3");
+
+                return {
+                    data[1] * other.data[2] - data[2] * other.data[1],
+                    data[2] * other.data[0] - data[0] * other.data[2],
+                    data[0] * other.data[1] - data[1] * other.data[0],
+                };
+            }
+
         private:
             std::array<float, D1> data;
 
