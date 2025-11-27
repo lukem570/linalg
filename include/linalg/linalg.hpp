@@ -475,6 +475,10 @@ namespace Linalg {
             float& z = data[2];
             float& w = data[3];
     };
+
+    using Mat2 = Matrix<2, 2>;
+    using Mat3 = Matrix<3, 3>;
+    using Mat4 = Matrix<4, 4>;
 }
 
 #endif
