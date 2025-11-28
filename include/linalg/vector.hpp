@@ -25,24 +25,32 @@ namespace Linalg {
     template <int N>
     using Vector = Tensor<N>;
 
-    template <int D1>
-    class TensorT<NumList<D1>> {
+    template <int D>
+    class TensorT<NumList<D>> {
         public:
-            typedef NumList<D1> Dim;
 
             TensorT() = default;
-            TensorT(std::initializer_list<float> list) {
-                std::copy(list.begin(), list.end(), data.begin());
-            }
-            TensorT(float value) { data.fill(value); }
+            TensorT(std::initializer_list<float> list);
+            TensorT(float value);
 
-            float& operator[](std::size_t index) {
-                return data[index];
-            }
+            float& operator[](std::size_t index);
+            const float& operator[](std::size_t index) const;
+            float& getList(std::array<std::size_t, GetSize<NumList<D>>::value> indices);
+            
+            float dot(const TensorT& b) const;
+            Vector<D> cross(Vector<D> other) const;
+            
+            float sum() const;
+            float squaredLength() const;
+            float length() const;
 
-            const float& operator[](std::size_t index) const {
-                return data[index];
-            }
+            Vector<D> normalize() const;
+            
+            Vector<D> lerp(Vector<D> to, float t) const;
+
+            std::size_t size() const;
+            std::string string() const;
+            Vector<D+1> extend(float value) const;
 
             TENSOR_OPERATION(+, const);
             TENSOR_OPERATION(-, const);
@@ -64,84 +72,8 @@ namespace Linalg {
             FLOAT_OPERATION(*=,);
             FLOAT_OPERATION(/=,);
 
-            float dot(const TensorT& b) const {
-                float sum = 0.0f;
-                for (int i = 0; i < D1; ++i)
-                    sum += this->operator[](i)* b[i];
-                return sum;
-            }
-
-            float sum() const {
-                float sum = 0.0f;
-                for (int i = 0; i < D1; ++i)
-                    sum += this->operator[](i);
-                return sum;
-            }
-
-            float squaredLength() const {
-                return dot(*this);
-            }
-
-            float length() const {
-                return std::sqrt(squaredLength());
-            }
-
-            float& getList(std::array<std::size_t, GetSize<Dim>::value> indices) {
-                return data[indices.back()];
-            }
-
-            std::size_t size() const {
-                return D1;
-            }
-
-            std::string string() const {
-                std::stringstream stream;
-                stream << "(";
-
-                for (std::size_t i = 0; i < data.size() - 1; i++) {
-                    stream << std::fixed << std::setprecision(6) << data[i] << ", ";
-                }
-
-                stream << std::fixed << std::setprecision(6) << data.back() << ")";
-
-                return stream.str();
-            }
-
-            TensorT<NumList<D1>> lerp(TensorT<NumList<D1>> to, float t) {
-                return *this * (1 - t) + to * t;
-            }
-
-            float determinant(const TensorT& other) const {
-                static_assert(D1 == 2, "determinate only implemented for size 2");
-
-                return data[0] * other[1] - data[1] * other[0];
-            }
-
-            TensorT<NumList<D1>> cross(TensorT<NumList<D1>> other) {
-                static_assert(D1 == 3, "cross product only exits for a vector 3");
-
-                return {
-                    data[1] * other.data[2] - data[2] * other.data[1],
-                    data[2] * other.data[0] - data[0] * other.data[2],
-                    data[0] * other.data[1] - data[1] * other.data[0],
-                };
-            }
-
-            TensorT<NumList<D1>> normalize() const {
-                return this->operator/(length());
-            }
-
-            TensorT<NumList<D1 + 1>> extend(float value) const {
-                TensorT<NumList<D1 + 1>> extended;
-                for (std::size_t i = 0; i < D1; ++i)
-                    extended[i] = this->operator[](i);
-                extended[D1] = value;
-                return extended;
-            }
-
         protected:
-            std::array<float, D1> data;
-
+            std::array<float, D> data;
     };
 
     FLIPPED_FLOAT_VECTOR_OPERATION(+);

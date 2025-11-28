@@ -12,7 +12,5 @@ int main(void) {
     la::Vec2 v2 = 1;
     v2.x = 2;
 
-    float det = v1.determinant(v2);
-
-    printf("det: %f\n", det);
+    (void)v1;
 }

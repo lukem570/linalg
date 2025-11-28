@@ -7,3 +7,4 @@
 
 #include "matrix.cpp"
 #include "tensor.cpp"
+#include "vector.cpp"
